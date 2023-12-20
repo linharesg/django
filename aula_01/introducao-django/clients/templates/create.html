@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Cadastro de clientes{% endblock  %}
+
+{% block content %}
+    <h1>Cadastro de cliente</h1>
+    <form action="{% url 'create'%}" method = "POST">
+        {% csrf_token %}
+        {% for field in form%}
+            <div>
+                {{field.label_tag}} {{field}} <br /> {{field.errors}}
+            </div>
+        {% endfor %}
+        <input type="submit" value = "Cadastrar">
+    </form>
+{% endblock  %}
