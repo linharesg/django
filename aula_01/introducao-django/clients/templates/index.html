@@ -14,9 +14,12 @@ Listagem de Clientes
     <tbody>
       {% for client in clients %}
       <tr>
-        <td>{{ client.name }}</td>
+        <td>
+          <a href="{% url 'detail' client.id %}">{{ client.name }}</a>
+        </td>
         <td>{{ client.email }}</td>
         <td>
+          <button><a href="{% url 'update' client.id %}">Editar</a></button>
           <form action="{% url 'delete' client.id %}" method="POST">
             {% csrf_token %}
             <input type="submit" value="Remover" />

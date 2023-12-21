@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Editar cliente{% endblock  %}
+
+{% block content %}
+    <h1>Editar cliente</h1>
+    <form action="{% url 'update' client.id %}" method = "POST">
+        {% csrf_token %}
+        {% for field in form%}
+            <div>
+                {{field.label_tag}} {{field}} <br /> {{field.errors}}
+            </div>
+        {% endfor %}
+        <input type="submit" value = "Editar">
+    </form>
+{% endblock  %}
