@@ -1,14 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
   Fornecedores
+{% endblock %}
+{% block head %}
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+  <script src="{% static 'suppliers/js/index.js' %}"></script>
 {% endblock %}
 {% block content %}
   <h2 class="mb-3">Fornecedores</h2>
 
+  <a 
+    href="{% url "suppliers:create" %}" title="Cadastrar novo fornecedor"
+    class="btn btn-primary btn-sticky-bottom">
+    <i class="bi bi-plus"></i>
+  </a>
+
   <!-- Filtro -->
-  <form action="" class="row mb-3">
+  <form method="get" action="{% url 'suppliers:search' %}" class="row mb-3">
     <div class="col">
-      <input class="form-control" type="text" name="q" placeholder="Buscar" />
+      <input value="{{ request.GET.q }}" class="form-control" type="text" name="q" placeholder="Buscar" />
     </div>
     <div class="col-auto">
       <button type="submit" class="btn btn-primary">Buscar</button>
@@ -40,13 +51,13 @@
             <td>{{ supplier.email }}</td>
             <td>{{ supplier.phone }}</td>
             <td>
-              <input type="checkbox" class="form-check-input" />
+              <input {% if supplier.enabled %}checked{% endif %} data-url="{% url 'suppliers:toggle_enabled' supplier.id %}" type="checkbox" class="form-check-input" />
             </td>
             <td class="d-flex gap-1">
-              <a href="#" class="btn btn-warning btn-sm" title="editar fornecedor"><i class="bi bi-pencil"></i></a>
-              <form method="post" action="{% url "suppliers:delete" supplier.id %}">
+              <a class="btn btn-warning btn-sm" title="editar fornecedor"><i class="bi bi-pencil"></i></a>
+              <form method="post" action="{% url 'suppliers:delete' supplier.id %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-small" title="remover fornecedor"><i class="bi bi-trash"></i></button>
+                <button type="submit" class="btn btn-danger btn-sm" title="remover fornecedor"><i class="bi bi-trash"></i></button>
               </form>
             </td>
           </tr>
@@ -57,5 +68,26 @@
         {% endfor %}
       </tbody>
     </table>
+    {% if suppliers.paginator.num_pages > 1 %}
+      <nav aria-label="Paginação da página">
+        <ul class="pagination justify-content-end">
+          {% if suppliers.has_previous %}
+            <li class="page-item">
+              <a href="?page={{ suppliers.previous_page_number }}" class="page-link" aria-label="Anterior">&laquo;</a>
+              {% comment %} <a href="{% url 'suppliers:index' page = suppliers.previous_page_number q = request.GET.q %}" class="page-link" aria-label="Anterior">&laquo;</a> {% endcomment %}
+            </li>
+          {% endif %}
+          <li class="page-item active">
+            <span class="page-link">{{ suppliers.number }}</span>
+          </li>
+          {% if suppliers.has_next %}
+            <li class="page-item">
+              <a href="?page={{ suppliers.next_page_number }}" class="page-link" aria-label="Próximo">&raquo;</a>
+              {% comment %} <a href="{% url 'suppliers:index' %}?page={{ suppliers.next_page_number }}" class="page-link" aria-label="Próximo">&raquo;</a> {% endcomment %}
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
   </div>
 {% endblock %}
