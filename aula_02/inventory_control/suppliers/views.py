@@ -3,6 +3,7 @@ from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import JsonResponse
+from django.contrib import messages
 from .models import Supplier
 from .forms import SupplierForm
 
@@ -49,7 +50,13 @@ def create(request):
 
         if form.is_valid():
             form.save()
+            
+            messages.success(request, "O fornecedor foi cadastrado com sucesso!")
+            
             return redirect ("suppliers:index")
+        # print(form.errors)
+        
+        messages.error(request, "Falha ao cadastrar o fornecedor. Verifique o preenchimento dos campos.")
         
         context = { "form": form }
         
