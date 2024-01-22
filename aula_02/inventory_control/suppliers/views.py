@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from .models import Supplier
 from .forms import SupplierForm
+from django.urls import reverse
 
 def index(request):
     suppliers = Supplier.objects.order_by("-id")
@@ -45,6 +46,8 @@ def search(request):
 
 def create(request):
     
+    form_action = reverse("suppliers:create")
+    
     if request.method == "POST":
         form = SupplierForm(request.POST)
 
@@ -58,17 +61,47 @@ def create(request):
         
         messages.error(request, "Falha ao cadastrar o fornecedor. Verifique o preenchimento dos campos.")
         
-        context = { "form": form }
+        context = { "form": form, "form_action": form_action }
         
         return render(request, "create.html", context)
     
     #GET
     form = SupplierForm()
     
-    context = { "form": form }
+    context = { "form": form, "form_action": form_action }
     
     return render(request, "create.html", context)
 
+def update(request, slug):
+    supplier = get_object_or_404(Supplier, slug=slug)
+    form_action = reverse("suppliers:update", args=(slug,)) # Obtendo a URL da rota de atualização
+
+    
+    if request.method == "POST":
+        form = SupplierForm(request.POST, instance=supplier)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Fornecedor atualizado com sucesso!")
+
+            return (redirect("suppliers:index"))
+        
+        context = {
+            "form_action": form_action,
+            "form": form
+        }
+        
+        return render(request, "create.html", context) 
+        
+    # GET
+    form = SupplierForm(instance=supplier)
+    
+    context = {
+        "form_action": form_action,
+        "form": form,
+    }
+
+    return render(request, "create.html", context)
 
 # só permite que a view seja acessada através de POST, e não de GET
 @require_POST

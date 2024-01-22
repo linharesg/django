@@ -9,112 +9,131 @@
   <script src="{% static 'suppliers/js/createUpdate.js' %}"></script>
 {% endblock %}
 {% block content %}
-  <h2 class="mb-3">Cadastro de Fornecedores</h2>
-  <form action="{% url 'suppliers:create' %}" method="post">
-    {% csrf_token %}
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label for="companyNameInput" class="form-label">Razão Social</label>
-        <input type="text" class="form-control {% if form.company_name.errors %}is-invalid{% endif %}" id="companyNameInput" name="company_name" value = "{{ form.company_name.value|default_if_none:"" }}"/>
-        {% if form.company_name.errors %}
-          <div class="invalid-feedback">{{ form.company_name.errors }}</div>
-        {% endif %}
-      </div>
-      <div class="col-md-6">
-        <label for="fantasyNameInput" class="form-label">Nome Fantasia</label>
-        <input type="text" class="form-control {% if form.fantasy_name.errors %}is-invalid{% endif %}" id="fantasyNameInput" name="fantasy_name" value = "{{ form.fantasy_name.value|default_if_none:"" }}"/>
-        {% if form.fantasy_name.errors %}
-          <div class="invalid-feedback">{{ form.fantasy_name.errors }}</div>
-        {% endif %}
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label for="cnpjInput" class="form-label">CNPJ</label>
-        <input type="text" class="form-control {% if form.cnpj.errors %}is-invalid{% endif %}" id="cnpjInput" name="cnpj" value = "{{ form.cnpj.value|default_if_none:"" }}"/>
-        {% if form.cnpj.errors %}
-          <div class="invalid-feedback">{{ form.cnpj.errors }}</div>
-        {% endif %}
-      </div>
-      <div class="col-md-4">
-        <label for="phoneInput" class="form-label">Telefone</label>
-        <input type="text" class="form-control" id="phoneInput" name="phone" value = "{{ form.phone.value|default_if_none:"" }}"/>
-        {% if form.phone.errors %}
-          <div
-            class="invalid-feedback">{{ form.phone.errors }}
-            {% for error in form.phone.errors %}
-            {{error|escape}}
-            {% endfor %}
-          </div>
-        {% endif %}
-      </div>
-      <div class="col-md-4">
-        <label for="emailInput" class="form-label">E-mail</label>
-        <input type="text" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="emailInput" name="email" value = "{{ form.email.value|default_if_none:"" }}"/>
-        {% if form.email.errors %}
-          <div class="invalid-feedback">{{ form.email.errors }}</div>
-        {% endif %}
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col">
-        <label for="representativeInput" class="form-label">Nome do representante</label>
-        <input type="text" class="form-control {% if form.representative.errors %}is-invalid{% endif %}" id="representativeInput" name="representative" value = "{{ form.representative.value|default_if_none:"" }}"/>
-        {% if form.representative.errors %}
-          <div class="invalid-feedback">{{ form.representative.errors }}</div>
-        {% endif %}
-      </div>
-    </div>
-    <h3>Endereço</h3>
-    <hr />
-    <div class="row mb-3">
-      <div class="col-md-3">
-        <label for="zipcodeInput" class="form-label">CEP</label>
-        <div class="input-group">
-          <input type="text" class="form-control {% if form.zipcode.errors %}is-invalid{% endif %}" id="zipcodeInput" name="zipcode" value = "{{ form.zipcode.value|default_if_none:"" }}"/>
-          <span class="input-group-text"><i id="zipcodeIcon" class="bi bi-geo-alt"></i></span>
-          {% if form.zipcode.errors %}
-            <div class="invalid-feedback">{{ form.zipcode.errors }}</div>
+  {% with create_url="/fornecedores/cadastro" %}
+  
+    {% comment %} {% url 'suppliers:create' as url_page %} {% endcomment %}
+    {% if form_action == create_url %}
+    <h2 class="mb-3">Cadastro de Fornecedores</h2>
+    {% else %}
+    <h2 class="mb-3">Fornecedor</h2>
+    {% endif %}
+    {% comment %} <form action="{% url 'suppliers:create' %}" method="post"> {% endcomment %}
+    <form action="{{ form_action }}" method="post">
+      {% csrf_token %}
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="companyNameInput" class="form-label">Razão Social</label>
+          <input type="text" class="form-control {% if form.company_name.errors %}is-invalid{% endif %}" id="companyNameInput" name="company_name" value = "{{ form.company_name.value|default_if_none:"" }}"/>
+          {% if form.company_name.errors %}
+            <div class="invalid-feedback">{{ form.company_name.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <label for="fantasyNameInput" class="form-label">Nome Fantasia</label>
+          <input type="text" class="form-control {% if form.fantasy_name.errors %}is-invalid{% endif %}" id="fantasyNameInput" name="fantasy_name" value = "{{ form.fantasy_name.value|default_if_none:"" }}"/>
+          {% if form.fantasy_name.errors %}
+            <div class="invalid-feedback">{{ form.fantasy_name.errors }}</div>
           {% endif %}
         </div>
       </div>
-      <div class="col-md-7">
-        <label for="streetInput" class="form-label">Rua</label>
-        <input type="text" class="form-control {% if form.street.errors %}is-invalid{% endif %}" id="streetInput" name="street" value = "{{ form.street.value|default_if_none:"" }}"/>
-        {% if form.street.errors %}
-          <div class="invalid-feedback">{{ form.street.errors }}</div>
-        {% endif %}
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="cnpjInput" class="form-label">CNPJ</label>
+          <input type="text" class="form-control {% if form.cnpj.errors %}is-invalid{% endif %}" id="cnpjInput" name="cnpj" value = "{{ form.cnpj.value|default_if_none:"" }}"/>
+          {% if form.cnpj.errors %}
+            <div class="invalid-feedback">{{ form.cnpj.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="col-md-4">
+          <label for="phoneInput" class="form-label">Telefone</label>
+          <input type="text" class="form-control" id="phoneInput" name="phone" value = "{{ form.phone.value|default_if_none:"" }}"/>
+          {% if form.phone.errors %}
+            <div
+              class="invalid-feedback">{{ form.phone.errors }}
+              {% for error in form.phone.errors %}
+              {{error|escape}}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="col-md-4">
+          <label for="emailInput" class="form-label">E-mail</label>
+          <input type="text" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="emailInput" name="email" value = "{{ form.email.value|default_if_none:"" }}"/>
+          {% if form.email.errors %}
+            <div class="invalid-feedback">{{ form.email.errors }}</div>
+          {% endif %}
+        </div>
       </div>
-      <div class="col-md-2">
-        <label for="numberInput" class="form-label">Número</label>
-        <input type="text" class="form-control {% if form.number.errors %}is-invalid{% endif %}" id="numberInput" name="number" value = "{{ form.number.value|default_if_none:"" }}"/>
-        {% if form.number.errors %}
-          <div class="invalid-feedback">{{ form.number.errors }}</div>
-        {% endif %}
+      <div class="row mb-3">
+        <div class="col">
+          <label for="representativeInput" class="form-label">Nome do representante</label>
+          <input type="text" class="form-control {% if form.representative.errors %}is-invalid{% endif %}" id="representativeInput" name="representative" value = "{{ form.representative.value|default_if_none:"" }}"/>
+          {% if form.representative.errors %}
+            <div class="invalid-feedback">{{ form.representative.errors }}</div>
+          {% endif %}
+        </div>
       </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label for="cityInput" class="form-label">Cidade</label>
-        <input type="text" class="form-control {% if form.city.errors %}is-invalid{% endif %}" id="cityInput" name="city" value = "{{ form.city.value|default_if_none:"" }}"/>
-        {% if form.city.errors %}
-          <div class="invalid-feedback">{{ form.city.errors }}</div>
-        {% endif %}
+      <h3>Endereço</h3>
+      <hr />
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="zipcodeInput" class="form-label">CEP</label>
+          <div class="input-group">
+            <input type="text" class="form-control {% if form.zipcode.errors %}is-invalid{% endif %}" id="zipcodeInput" name="zipcode" value = "{{ form.zipcode.value|default_if_none:"" }}"/>
+            <span class="input-group-text"><i id="zipcodeIcon" class="bi bi-geo-alt"></i></span>
+            {% if form.zipcode.errors %}
+              <div class="invalid-feedback">{{ form.zipcode.errors }}</div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-7">
+          <label for="streetInput" class="form-label">Rua</label>
+          <input type="text" class="form-control {% if form.street.errors %}is-invalid{% endif %}" id="streetInput" name="street" value = "{{ form.street.value|default_if_none:"" }}"/>
+          {% if form.street.errors %}
+            <div class="invalid-feedback">{{ form.street.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="col-md-2">
+          <label for="numberInput" class="form-label">Número</label>
+          <input type="text" class="form-control {% if form.number.errors %}is-invalid{% endif %}" id="numberInput" name="number" value = "{{ form.number.value|default_if_none:"" }}"/>
+          {% if form.number.errors %}
+            <div class="invalid-feedback">{{ form.number.errors }}</div>
+          {% endif %}
+        </div>
       </div>
-      <div class="col-md-6">
-        <label for="stateSelect" class="form-label">Estado</label>
-        <select class="form-control {% if form.state.errors %}is-invalid{% endif %}" name="state" id="stateSelect" >
-          {% for code, name in form.state.field.choices %}
-            <option value="{{ code }}" {% if form.state.value == code %}selected{% endif %}>{{ name }}</option>
-          {% endfor %}
-        </select>
-        {% if form.state.errors %}
-          <div class="invalid-feedback">{{ form.state.errors }}</div>
-        {% endif %}
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="cityInput" class="form-label">Cidade</label>
+          <input type="text" class="form-control {% if form.city.errors %}is-invalid{% endif %}" id="cityInput" name="city" value = "{{ form.city.value|default_if_none:"" }}"/>
+          {% if form.city.errors %}
+            <div class="invalid-feedback">{{ form.city.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <label for="stateSelect" class="form-label">Estado</label>
+          <select class="form-control {% if form.state.errors %}is-invalid{% endif %}" name="state" id="stateSelect" >
+            {% for code, name in form.state.field.choices %}
+              <option value="{{ code }}" {% if form.state.value == code %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select>
+          {% if form.state.errors %}
+            <div class="invalid-feedback">{{ form.state.errors }}</div>
+          {% endif %}
+        </div>
       </div>
-    </div>
-    <div class="d-grid">
-      <button class="btn btn-primary btn-lg">Salvar</button>
-    </div>
-  </form>
+      {% if form_action != create_url %}    
+        <div class="row-mb-3">
+          <div class="col">
+            <div class="form-check">
+              <input type="checkbox" name="enabled" {% if form.enabled.value %}checked{% endif %} class="form-check-input" id="enabledCheckbox">
+              <label for="enabledCheckbox">Ativo</label>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      <div class="d-grid">
+        <button class="btn btn-primary btn-lg">Salvar</button>
+      </div>
+    </form>
+  {% endwith %}
 {% endblock %}
