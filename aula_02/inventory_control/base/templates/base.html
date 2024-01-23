@@ -56,9 +56,13 @@
                 <i class="bi bi-box-seam"></i>
                 Fornecedores
               </a>
-              <a href="{% url 'suppliers:create' %}" class="nav-link link-dark">
+              {% comment %} <a href="{% url 'suppliers:create' %}" class="nav-link link-dark">
                 <i class="bi bi-person-plus-fill"></i>
                 Cadastrar
+              </a> {% endcomment %}
+              <a href="{% url 'products:index' %}" class="nav-link link-dark">
+                <i class="bi bi-person-plus-fill"></i>
+                Produtos
               </a>
             </li>
           </ul>

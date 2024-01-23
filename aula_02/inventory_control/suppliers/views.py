@@ -17,7 +17,7 @@ def index(request):
     page_obj = paginator.get_page(page_number)
 
     context = { "suppliers": page_obj }
-    return render(request, "index.html", context)
+    return render(request, "suppliers/index.html", context)
 
 def search(request):
     # Obtendo o valor da requisição (Formulário)
@@ -42,7 +42,7 @@ def search(request):
 
     context = { "suppliers": page_obj}
 
-    return render(request, "index.html", context)
+    return render(request, "suppliers/index.html", context)
 
 def create(request):
     
@@ -63,14 +63,14 @@ def create(request):
         
         context = { "form": form, "form_action": form_action }
         
-        return render(request, "create.html", context)
+        return render(request, "suppliers/create.html", context)
     
     #GET
     form = SupplierForm()
     
     context = { "form": form, "form_action": form_action }
     
-    return render(request, "create.html", context)
+    return render(request, "suppliers/create.html", context)
 
 def update(request, slug):
     supplier = get_object_or_404(Supplier, slug=slug)
@@ -91,7 +91,7 @@ def update(request, slug):
             "form": form
         }
         
-        return render(request, "create.html", context) 
+        return render(request, "suppliers/create.html", context) 
         
     # GET
     form = SupplierForm(instance=supplier)
@@ -101,7 +101,7 @@ def update(request, slug):
         "form": form,
     }
 
-    return render(request, "create.html", context)
+    return render(request, "suppliers/create.html", context)
 
 # só permite que a view seja acessada através de POST, e não de GET
 @require_POST
