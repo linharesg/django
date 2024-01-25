@@ -8,12 +8,18 @@ import os
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
+    slug = models.SlugField(unique=True, blank=True)
+
     
     def __str__(self):
         return f"{self.name}"
     class Meta:
         verbose_name = "Categoria"
         verbose_name_plural = "Categorias"
+        
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
     
 class Products(models.Model):
     

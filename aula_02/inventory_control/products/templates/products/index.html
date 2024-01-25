@@ -46,6 +46,7 @@
               <td>{% if product.thumbnail %}<img src="{{ product.thumbnail.url }}" alt="Foto do produto" height="30" width="30">{% else %}Sem foto{% endif %}</td>
               <td>{{ product.name|title }}</td>
               <td>{{ product.category.name|title|default:"Sem categoria" }}</td>
+              {% comment %} <td><a href="{% url 'products:category_index' %}">{{ product.category.name|title|default:"Sem categoria" }}</a></td> {% endcomment %}
               <td>R$ {{ product.sale_price}}</td>
               <td>{% if product.is_perishable %}{{product.expiration_date}}{% else %}Não perecível{% endif %}</td>
               <td>

@@ -5,7 +5,9 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib import messages
 from .models import Products
+from .models import Category
 from .forms import ProductsForm
+from .forms import CategoryForms
 from django.urls import reverse
 
 def index(request):
@@ -54,7 +56,6 @@ def create(request):
 
         if request.method == 'POST':
             form = ProductsForm(request.POST, request.FILES)
-        
             if form.is_valid():
                 form.save()
                 
@@ -71,11 +72,37 @@ def create(request):
     
     #GET
     form = ProductsForm()
-    
+
     context = { "form": form, "form_action": form_action }
     
     return render(request, "products/create.html", context)
 
+def category_create(request):
+    
+    form_action = reverse("products:category_create")
+
+    if request.method == "POST":
+        
+        form = CategoryForms(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Categoria criada com sucesso!")
+
+            return redirect("products:category_index")
+
+        messages.error(request, "Falha ao cadastrar a categoria. Verifique os campos preenchidos.")
+
+        context = { "form": form, "form_action": form_action }
+        return render(request, "categories.create.html", context)
+
+    #GET
+    form = CategoryForms()
+
+    context = {"form": form, "form_action": form_action}
+
+    return render(request, "categories/create.html", context)
+    
 def update(request, slug):
     product = get_object_or_404(Products, slug=slug)
     form_action = reverse("products:update", args=(slug,)) # Obtendo a URL da rota de atualização
@@ -110,6 +137,47 @@ def update(request, slug):
 
     return render(request, "products/create.html", context)
 
+def category_update(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    form_action = reverse("products:category_update", args=(slug,)) # Obtendo a URL da rota de atualização
+
+    
+    if request.method == "POST":
+        form = CategoryForms(request.POST, instance=category)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Categoria atualizada com sucesso!")
+
+            return (redirect("products:category_index"))
+        
+        context = {
+            "form_action": form_action,
+            "form": form
+        }
+        
+        return render(request, "categories/create.html", context) 
+        
+    # GET
+    form = CategoryForms(instance=category)
+    
+    context = {
+        "form_action": form_action,
+        "form": form,
+    }
+
+    return render(request, "categories/create.html", context)
+
+def category_index(request):
+    categories = Category.objects.order_by("-id")
+    
+    paginator = Paginator(categories, 2)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = { "categories": page_obj }
+    return render(request, "categories/index.html", context)
+
 # só permite que a view seja acessada através de POST, e não de GET
 @require_POST
 def delete(request, id):
@@ -117,6 +185,13 @@ def delete(request, id):
     product.delete()
 
     return redirect("products:index")
+
+@require_POST
+def category_delete(request, id):
+    category = get_object_or_404(Category, pk=id)
+    category.delete()
+
+    return redirect("products:category_index")
 
 @require_POST
 # def toggle_enabled(request, id):

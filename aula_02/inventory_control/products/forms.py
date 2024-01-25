@@ -1,5 +1,6 @@
 from django import forms
 from .models import Products
+from .models import Category
 import re
 
 class ProductsForm(forms.ModelForm):
@@ -35,3 +36,14 @@ class ProductsForm(forms.ModelForm):
         widgets = {
             "expiration_date": forms.DateInput(attrs={"type":"date"}, format="%Y-%m-%d")
             }
+
+class CategoryForms(forms.ModelForm):
+    
+    class Meta:
+        model = Category
+        fields = "__all__"
+        
+        labels = {
+            "name": "Nome da categoria",
+            "description": "Descrição da categoria",
+        }
