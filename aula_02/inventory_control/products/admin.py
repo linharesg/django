@@ -10,3 +10,4 @@ class ProductsAdmin(admin.ModelAdmin):
     exclude = ["slug"]
     list_filter = ["name", "enabled", "is_perishable"]
     list_editable = ["sale_price", "is_perishable", "expiration_date"]
+    exclude = ["thumbnail", "is_perishable", "slug"]

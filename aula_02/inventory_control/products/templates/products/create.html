@@ -1,0 +1,53 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% load crispy_forms_tags %}
+{% block title %}Cadastro de Produtos{% endblock %} 
+{% block content %}
+  {% with create_url="/produtos/cadastro" %}
+    {% if form_action == create_url %}
+      <h2 class="mb-3">Cadastro de Produtos</h2>
+    {% else %}
+      <h2 class="mb-3">Edição de Produto</h2>
+    {% endif %}
+    <form action="{{ form_action }}" method="post" novalidate enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="row mb-3">
+        <div class="col">
+          {{ form.name|as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          {{ form.description|as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          {{ form.sale_price|as_crispy_field }}
+        </div>
+        <div class="col-md-6">
+          {{ form.expiration_date|as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          {{ form.photo|as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          {{ form.enabled|as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="d-grid">
+        <button class="btn btn-primary btn-lg">Salvar</button>
+      </div>
+    </form>
+  {% endwith %}
+{% endblock %}
