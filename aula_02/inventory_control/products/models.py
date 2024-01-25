@@ -5,7 +5,16 @@ from io import BytesIO
 from django.core.files.base import ContentFile
 import os
 
-
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField()
+    
+    def __str__(self):
+        return f"{self.name}"
+    class Meta:
+        verbose_name = "Categoria"
+        verbose_name_plural = "Categorias"
+    
 class Products(models.Model):
     
     name = models.CharField(unique=True, max_length=255)
@@ -18,6 +27,7 @@ class Products(models.Model):
     thumbnail = models.ImageField(upload_to="thumbnails", blank=True)
     enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True, blank=True)
     
     def __str__(self):
         return self.name

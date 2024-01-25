@@ -33,7 +33,8 @@ def search(request):
     # O "Q" é usado para combinar filtros (AND (&) ou | (OR))
     products = Products.objects \
         .filter(Q(name__icontains=search_value) | 
-            Q(description__icontains=search_value)) \
+            Q(description__icontains=search_value) |
+            Q(category__name__icontains=search_value)) \
         .order_by("-id")
 
     paginator = Paginator(products, 2)

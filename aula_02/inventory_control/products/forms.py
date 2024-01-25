@@ -14,7 +14,8 @@ class ProductsForm(forms.ModelForm):
             "sale_price": "Preço de venda",
             "expiration_date": "Data de expiração",
             "photo": "Imagem do produto",
-            "enabled": "Ativo"
+            "enabled": "Ativo",
+            "category": "Categoria",
         }
         
         error_messages = {
