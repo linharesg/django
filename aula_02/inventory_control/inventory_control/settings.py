@@ -142,7 +142,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-ALLOWED_HOSTS = [".awsapprunner.com"]
+ALLOWED_HOSTS = [".awsapprunner.com", "18.191.226.76"]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
