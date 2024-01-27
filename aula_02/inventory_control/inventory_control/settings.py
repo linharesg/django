@@ -121,7 +121,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 # STATICFILES_DIRS = [
 #     BASE_DIR / 'base' / 'staticfiles'
 # ]
@@ -142,7 +142,8 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 ALLOWED_HOSTS = [".awsapprunner.com", "127.0.0.1", "18.119.166.238"]
 
-STATIC_ROOT = BASE_DIR / "base" / "staticfiles"
+# STATIC_ROOT = BASE_DIR / "base" / "staticfiles"
+STATIC_ROOT = 'static'
 
 STORAGES = {
     "default": {
