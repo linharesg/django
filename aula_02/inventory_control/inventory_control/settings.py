@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'crispy_forms',
     "crispy_bootstrap5",
+    "whitenoise.runserver_nostatic",
 ]
 
 MIDDLEWARE = [
