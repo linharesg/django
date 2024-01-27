@@ -142,7 +142,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 ALLOWED_HOSTS = [".awsapprunner.com", "127.0.0.1", "18.119.166.238"]
 
-# STATIC_ROOT = BASE_DIR / "base" / "staticfiles"
+STATIC_ROOT = BASE_DIR / "base" / "staticfiles"
 
 STORAGES = {
     "default": {
