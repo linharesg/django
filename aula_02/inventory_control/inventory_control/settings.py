@@ -25,9 +25,6 @@ SECRET_KEY = 'django-insecure-x0sgd6u9h8+#rr-bi3(s&-w9&f9n6rgvfeti1+sgdca1i01%8l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -143,7 +140,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-ALLOWED_HOSTS = [".awsapprunner.com", "18.191.226.76", "127.0.0.1", "13.59.146.110"]
+ALLOWED_HOSTS = [".awsapprunner.com", "127.0.0.1", "18.119.166.238"]
 
 STATIC_ROOT = BASE_DIR / "base" / "staticfiles"
 
