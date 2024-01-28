@@ -9,9 +9,11 @@
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 <script src="{% static 'base/js/index.js' %}"></script>
+
 {% endblock %}
 
 {% block content %}
+
   <h2 class="mb-3">Produtos</h2>
 
   <a href="{% url 'products:create' %}" title="Cadastrar novo produto" class="btn btn-primary btn-sticky-bottom"><i class="bi bi-plus"></i></a>
@@ -34,6 +36,7 @@
           <th>Foto</th>
           <th>Nome</th>
           <th>Categoria</th>
+          <th>Fornecedores</th>
           <th>Preço de venda</th>
           <th>Data de validade</th>
           <th>Ativo</th>
@@ -41,12 +44,38 @@
       </thead>
       <tbody>
         {% for product in products %}
+        <div class="modal fade" id="modal{{product.id}}" tabindex="-1" aria-labelledby="modal{{product.id}}Label" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal{{product.id}}Label">Fornecedores</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  {% for supplier in product.suppliers.all %}
+                    {{supplier.company_name|title}}
+                  {% endfor %}      
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+              </div>
+            </div>
+          </div>
+        </div>
           <tr>
               <td>{{ product.id }}</td>
               <td>{% if product.thumbnail %}<img src="{{ product.thumbnail.url }}" alt="Foto do produto" height="30" width="30">{% else %}Sem foto{% endif %}</td>
               <td>{{ product.name|title }}</td>
               <td>{{ product.category.name|title|default:"Sem categoria" }}</td>
               {% comment %} <td><a href="{% url 'products:category_index' %}">{{ product.category.name|title|default:"Sem categoria" }}</a></td> {% endcomment %}
+
+               <td>
+                {% comment %} <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-product-id="{{ product.id }}"> {% endcomment %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ product.id }}">
+                  Fornecedores
+                </button>
+               </td> {% comment %} Fornecedores {% endcomment %}
+               
               <td>R$ {{ product.sale_price}}</td>
               <td>{% if product.is_perishable %}{{product.expiration_date}}{% else %}Não perecível{% endif %}</td>
               <td>
@@ -90,4 +119,5 @@
       </nav>
     {% endif %}
   </div>
+
 {% endblock %}

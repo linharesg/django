@@ -9,16 +9,23 @@ from .models import Category
 from .forms import ProductsForm
 from .forms import CategoryForms
 from django.urls import reverse
+from suppliers.models import Supplier
 
 def index(request):
     products = Products.objects.order_by("-id")
-    
+    # suppliers = Products.suppliers
+    # suppliers = Products.suppliers.all()
+    print(products)
+    for product in products:
+        print(f"{product.name}: {product.suppliers.all()}")
+    # for supplier in suppliers:
+    #     print(f"FORNECEDORE: {supplier}")
     paginator = Paginator(products, 2)
     #/fornecedores?page=1
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = { "products": page_obj }
+    context = { "products": page_obj, 'default_product_id': default_product_id }
     return render(request, "products/index.html", context)
 
 def search(request):

@@ -4,6 +4,7 @@ from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
 import os
+from suppliers.models import Supplier
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -34,6 +35,7 @@ class Products(models.Model):
     enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True, blank=True)
+    suppliers = models.ManyToManyField(Supplier)
     
     def __str__(self):
         return self.name

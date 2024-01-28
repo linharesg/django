@@ -50,6 +50,9 @@ class Supplier(models.Model):
     def __str__(self):
         return self.company_name
     
+    def __repr__(self):
+        return self.company_name
+    
     def save(self, *args, **kwargs):
         self.slug = slugify(self.fantasy_name)
         super(Supplier, self).save(*args, **kwargs)
