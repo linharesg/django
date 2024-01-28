@@ -29,9 +29,6 @@ def search(request):
     if not search_value:
         return redirect("products:index")
     
-    #Filtrando os fornecedores
-    # products = Products.objects.filter(fantasy_name__icontains=search_value)
-
     # O "Q" é usado para combinar filtros (AND (&) ou | (OR))
     products = Products.objects \
         .filter(Q(name__icontains=search_value) | 
@@ -46,6 +43,28 @@ def search(request):
     context = { "products": page_obj}
 
     return render(request, "products/index.html", context)
+
+def category_search(request):
+    # Obtendo o valor da requisição (Formulário)
+    search_value = request.GET.get("q").strip()
+
+    # Verificando se algo foi digitado
+    if not search_value:
+        return redirect("products:category_index")
+    
+    # O "Q" é usado para combinar filtros (AND (&) ou | (OR))
+    categories = Category.objects \
+        .filter(Q(name__icontains=search_value) | 
+            Q(description__icontains=search_value)) \
+        .order_by("-id")
+
+    paginator = Paginator(categories, 2)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = { "categories": page_obj}
+
+    return render(request, "categories/index.html", context)
 
 def create(request):
     

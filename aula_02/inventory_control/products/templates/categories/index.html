@@ -17,21 +17,23 @@
   <a href="{% url 'products:category_create' %}" title="Cadastrar novo produto" class="btn btn-primary btn-sticky-bottom"><i class="bi bi-plus"></i></a>
 
   <!-- Filtro -->
-  {% comment %} <form method="get" action="{% url 'category:search' %}" class="row mb-3">
+  <form method="get" action="{% url 'products:category_search' %}" class="row mb-3">
     <div class="col">
       <input value="{{ request.GET.q }}" class="form-control" type="text" name="q" placeholder="Buscar" />
     </div>
     <div class="col-auto">
       <button type="submit" class="btn btn-primary">Buscar</button>
     </div>
-  </form> {% endcomment %}
+  </form>
 
   <div class="table-responsive">
     <table class="table table-striped table-sm">
       <thead>
         <tr>
+          <th>ID</th>
           <th>Nome</th>
           <th>Descrição</th>
+          <th>Edição</th>
         </tr>
       </thead>
       <tbody>
