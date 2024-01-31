@@ -2,8 +2,12 @@
 {% load static %} 
 {% load crispy_forms_tags %}
 {% block title %}Cadastro de Produtos{% endblock %} 
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+<script src="{% static 'products/js/createUpdate.js' %}"></script>
+{% endblock  %}
 {% block content %}
-  {% with create_url="/produtos/cadastro" %}
+  {% with create_url="/produtos/cadastro/" %}
     {% if form_action == create_url %}
       <h2 class="mb-3">Cadastro de Produtos</h2>
     {% else %}
@@ -43,6 +47,35 @@
         <div class="col">
           {{ form.photo|as_crispy_field }}
         </div>
+      </div>
+
+      <h3>Fornecedores</h3>
+      <div id="supplierFormset">
+        {{ supplier_product_formset.management_form }}
+        {% for supplier in supplier_product_formset %}
+        <div class="row mb-3">
+          {{ supplier.id }}
+          <div class="col-md-5">
+            {{ supplier.supplier|as_crispy_field}}
+          </div>
+          <div class="col-md-5">
+            {{ supplier.cost_price|as_crispy_field}}
+          </div>
+          <div class="col-md-2">
+            <div class="d-grid">
+              <button
+              {% if supplier.id.value %}data-url="{% url 'products:delete_supplier' supplier.id.value %}"{% endif %}
+               type="button" class="btn btn-danger remove-btn">
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <div class="d-grid md-3">
+        <button type="button" id="addSupplierButton" class="btn btn-outline-secondary">Adicionar Fornecedor</button>
       </div>
 
       <div class="row mb-3">

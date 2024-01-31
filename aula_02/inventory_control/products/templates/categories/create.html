@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 {% block title %}Cadastro de Categorias{% endblock %} 
 {% block content %}
-  {% with create_url="/produtos/categorias/cadastro" %}
+  {% with create_url="/produtos/categorias/cadastro/" %}
     {% if form_action == create_url %}
       <h2 class="mb-3">Cadastro de Categorias</h2>
     {% else %}

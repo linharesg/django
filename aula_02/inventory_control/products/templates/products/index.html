@@ -9,10 +9,38 @@
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 <script src="{% static 'base/js/index.js' %}"></script>
+<script src="{% static 'products/js/index.js' %}"></script>
 
 {% endblock %}
 
 {% block content %}
+
+<div class="modal fade" id="suppliersModal" tabindex="-1" aria-labelledby="suppliersModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="suppliersModalLabel">Fornecedores</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Preço de custo</th>
+            </tr>
+          </thead>
+          <tbody id="suppliersTableBody">
+
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <h2 class="mb-3">Produtos</h2>
 
@@ -44,24 +72,6 @@
       </thead>
       <tbody>
         {% for product in products %}
-        <div class="modal fade" id="modal{{product.id}}" tabindex="-1" aria-labelledby="modal{{product.id}}Label" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modal{{product.id}}Label">Fornecedores</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                  {% for supplier in product.suppliers.all %}
-                    {{supplier.company_name|title}}
-                  {% endfor %}      
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
-              </div>
-            </div>
-          </div>
-        </div>
           <tr>
               <td>{{ product.id }}</td>
               <td>{% if product.thumbnail %}<img src="{{ product.thumbnail.url }}" alt="Foto do produto" height="30" width="30">{% else %}Sem foto{% endif %}</td>
@@ -82,6 +92,9 @@
                 <input {% if product.enabled %}checked{% endif %} type="checkbox" data-url="{% url 'products:toggle_enabled' product.id %}" class="form-check-input">
               </td>
               <td class="d-flex gap-1">
+                <button data-url="{% url 'products:suppliers' product.id %}" title="Fornecedores do produto" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#suppliersModal">
+                  <i class="bi bi-box"></i>
+                </button>
                 <a href="{% url 'products:update' product.slug %}" class="btn btn-warning btn-sm" title="editar produto"><i class="bi bi-pencil"></i></a>
                 <form method="post" action="{% url 'products:delete' product.id %}">
                   {% csrf_token %}

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Products
 from .models import Category
+from .models import SupplierProduct
 
 
 # admin.site.register(Products)
@@ -21,3 +22,11 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display_links = ["name"]
     list_per_page = 100
     list_show_max_all = 1000
+    
+@admin.register(SupplierProduct)
+class SupplierProduct(admin.ModelAdmin):
+    list_display = ["id", "product", "cost_price"]
+    search_fields = ["product"]
+    list_per_page = 100
+    list_max_show_all = 1000
+    
