@@ -69,11 +69,17 @@
                 Categorias
               </a>
             </li>
+            <li>  
+              <a href="{% url 'users:index' %}" class="nav-link link-dark">
+                <i class="bi bi-person-fill"></i>
+                Usuários
+              </a>
+            </li>
           </ul>
           <hr />
           <ul class="nav nav-pills">
             <li>
-              <a href="#" class="nav-link link-dark">
+              <a href="{% url 'users:logout' %}" class="nav-link link-dark">
                 <i class="bi bi-box-arrow-left"></i>
                 Sair
               </a>
