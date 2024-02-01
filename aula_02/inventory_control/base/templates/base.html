@@ -1,4 +1,5 @@
 {% load static %}
+{% load tags %}
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -76,17 +77,29 @@
               </a>
             </li>
           </ul>
-          <hr />
-          <ul class="nav nav-pills">
-            <li>
-              <a href="{% url 'users:logout' %}" class="nav-link link-dark">
-                <i class="bi bi-box-arrow-left"></i>
-                Sair
-              </a>
-            </li>
-          </ul>
+            {% current_user request as user_first_name %}
+            {% if user_first_name != False %}
+              Bem-vindo, {{user_first_name}}!
+              <hr/>
+              <ul class="nav nav-pills">
+                <li>
+                  <a href="{% url 'users:logout' %}" class="nav-link link-dark">
+                    <i class="bi bi-box-arrow-left"></i>
+                    Sair
+                  </a>
+                </li>
+              </ul>
+              {% else %}
+              <ul class="nav nav-pills flex-column flex-grow-2">
+                  <button class="btn btn-primary" >
+                    <a href="{% url 'users:login' %}" class="nav-link link-dark" style="color: aliceblue;">
+                        Fazer login
+                      </a>
+                  </button>
+                </li>
+              </ul>
+              {% endif %}
         </nav>
-
         <main class="col-md-9 col-lg-10 ml-sm-auto p-md-4 overflow-auto">
             <div class="container mt-4">
                 {% block content %}{% endblock  %}
