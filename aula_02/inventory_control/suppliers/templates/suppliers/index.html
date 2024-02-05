@@ -20,14 +20,7 @@
   </a>
 
   <!-- Filtro -->
-  <form method="get" action="{% url 'suppliers:search' %}" class="row mb-3">
-    <div class="col">
-      <input value="{{ request.GET.q }}" class="form-control" type="text" name="q" placeholder="Buscar" />
-    </div>
-    <div class="col-auto">
-      <button type="submit" class="btn btn-primary">Buscar</button>
-    </div>
-  </form>
+  {% include "partials/_search_filter.html" with search_value="suppliers:search" %}
 
   <!-- Tabela de estoque -->
   <div class="table-responsive">
@@ -45,7 +38,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for supplier in suppliers %}
+        {% for supplier in page_obj %}
           <tr>
             <td>{{ supplier.id }}</td>
             <td>{{ supplier.company_name|title }}</td>
@@ -71,26 +64,7 @@
         {% endfor %}
       </tbody>
     </table>
-    {% if suppliers.paginator.num_pages > 1 %}
-      <nav aria-label="Paginação da página">
-        <ul class="pagination justify-content-end">
-          {% if suppliers.has_previous %}
-            <li class="page-item">
-              <a href="?page={{ suppliers.previous_page_number }}" class="page-link" aria-label="Anterior">&laquo;</a>
-              {% comment %} <a href="{% url 'suppliers:index' page = suppliers.previous_page_number q = request.GET.q %}" class="page-link" aria-label="Anterior">&laquo;</a> {% endcomment %}
-            </li>
-          {% endif %}
-          <li class="page-item active">
-            <span class="page-link">{{ suppliers.number }}</span>
-          </li>
-          {% if suppliers.has_next %}
-            <li class="page-item">
-              <a href="?page={{ suppliers.next_page_number }}" class="page-link" aria-label="Próximo">&raquo;</a>
-              {% comment %} <a href="{% url 'suppliers:index' %}?page={{ suppliers.next_page_number }}" class="page-link" aria-label="Próximo">&raquo;</a> {% endcomment %}
-            </li>
-          {% endif %}
-        </ul>
-      </nav>
-    {% endif %}
+
+    {% include "partials/_paginator.html" %}
   </div>
 {% endblock %}

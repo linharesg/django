@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-  Cadastro de Fornecedores
+  Edição de Fornecedores
 {% endblock %}
 {% block head %}
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
@@ -9,16 +9,11 @@
   <script src="{% static 'suppliers/js/createUpdate.js' %}"></script>
 {% endblock %}
 {% block content %}
-  {% with create_url="/fornecedores/cadastro/" %}
-  
-    {% comment %} {% url 'suppliers:create' as url_page %} {% endcomment %}
-    {% if form_action == create_url %}
-    <h2 class="mb-3">Cadastro de Fornecedores</h2>
-    {% else %}
-    <h2 class="mb-3">Fornecedor</h2>
-    {% endif %}
+ 
+    <h2 class="mb-3">Atualizar fornecedor</h2>
+
     {% comment %} <form action="{% url 'suppliers:create' %}" method="post"> {% endcomment %}
-    <form action="{{ form_action }}" method="post">
+    <form method="post">
       {% csrf_token %}
       <div class="row mb-3">
         <div class="col-md-6">
@@ -121,7 +116,7 @@
           {% endif %}
         </div>
       </div>
-      {% if form_action != create_url %}    
+
         <div class="row-mb-3">
           <div class="col">
             <div class="form-check">
@@ -130,10 +125,9 @@
             </div>
           </div>
         </div>
-      {% endif %}
+
       <div class="d-grid">
         <button class="btn btn-primary btn-lg">Salvar</button>
       </div>
     </form>
-  {% endwith %}
 {% endblock %}
