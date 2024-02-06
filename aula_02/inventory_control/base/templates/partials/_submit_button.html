@@ -1,0 +1,11 @@
+{% load static %}
+
+<div class="d-grid">
+    <button type="submit" id="submitButton" class="btn btn-primary btn-lg">
+        <span style="display: none;" id="loadingSpinner" class="spinner-border spinner-border-sm"></span>
+        <span id="buttonText">{{text}}</span>
+    </button>
+</div>
+
+<script src="{% static 'base/js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'base/js/submitButton.js' %}"></script>

@@ -83,10 +83,18 @@
               <hr/>
               <ul class="nav nav-pills">
                 <li>
-                  <a href="{% url 'users:logout' %}" class="nav-link link-dark">
+                  <form action="{% url 'users:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link link-dark">
+                      <i class="bi bi-box-arrow-left"></i>
+                      Sair
+                    </button>
+                  </form>
+
+                  {% comment %} <a href="{% url 'users:logout' %}" class="nav-link link-dark">
                     <i class="bi bi-box-arrow-left"></i>
                     Sair
-                  </a>
+                  </a> {% endcomment %}
                 </li>
               </ul>
               {% else %}

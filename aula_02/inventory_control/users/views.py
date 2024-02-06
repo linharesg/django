@@ -6,6 +6,16 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
+
+class UserLoginView(LoginView):
+    template_name = "users/login.html"
+    redirect_authenticated_user = True
+    next_page = "products:index"
+
+class UserLogoutView(LogoutView):
+    next_page = "users:login"
+
 
 @login_required
 def index(request):

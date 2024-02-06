@@ -17,12 +17,17 @@
                         <h2>Login</h2>
                     </div>
                     <div class="card-body">
-                        <form action="{% url 'users:login' %}" method="POST">
+                        <form action="{% url 'users:login' %}" method="POST" class="flex mb-3">
                             {% csrf_token %}
                             {{ form | crispy }}
-                            <input type="hidden" name="next" value="{{ next|default_if_none:"" }}">
-                            <button type="submit" class="btn btn-primary">Entrar</button>
+                            <input type="hidden" name="next" value="{{ next|default_if_none:'' }}">
+                            {% comment %} <button type="submit" class="btn btn-primary">Entrar</button> {% endcomment %}
+                            {% include "partials/_submit_button.html" with text="Entrar"%}
                         </form>
+
+                        {% comment %} <form action="{% url "users:create" %}" class="flex" method="GET">
+                            {% include "partials/_submit_button.html" with text="Criar conta" %}
+                        </form> {% endcomment %}
                     </div>
                 </div>
             </div>

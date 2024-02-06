@@ -8,8 +8,11 @@ from .models import Supplier
 from .forms import SupplierForm
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView,  DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class SupplierListView(ListView):
+
+# Em classe não dá de utilizar o decorador @login_required, por isso importa o LoginRequiredMixin
+class SupplierListView(LoginRequiredMixin ,ListView):
     model = Supplier
     template_name = "suppliers/index.html"
     paginate_by = 1
@@ -45,6 +48,11 @@ class SupplierCreateView(CreateView):
         messages.success(self.request, "Fornecedor cadastrado com sucesso!")
         return response
     
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        messages.success(self.request, "Erro ao cadastrar o fornecedor!")
+        return response    
+
     def get_context_date(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form_action"] = reverse("suppliers:create")

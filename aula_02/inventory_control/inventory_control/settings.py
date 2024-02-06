@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     'suppliers.apps.SuppliersConfig',
     'products.apps.ProductsConfig',
     'users.apps.UsersConfig',
+    'api.apps.ApiConfig',
     'crispy_forms',
     "crispy_bootstrap5",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
