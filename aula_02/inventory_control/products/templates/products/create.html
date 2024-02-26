@@ -53,7 +53,7 @@
       <div id="supplierFormset">
         {{ supplier_product_formset.management_form }}
         {% for supplier in supplier_product_formset %}
-        <div class="row mb-3">
+        <div class="row mb-3 productRow">
           {{ supplier.id }}
           <div class="col-md-5">
             {{ supplier.supplier|as_crispy_field}}

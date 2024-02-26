@@ -6,6 +6,25 @@ jQuery(function() {
 
     const $originalSupplier = $suppliersContainer.children(".row:first").clone(true);
 
+    const updateFormIndex = function(){
+        $(".productRow").each(function(index) {
+            $(this).find(":input, select, label, div").each(function() {
+                const name = $(this).attr("name")
+                const id = $(this).attr("id")
+                if (name) {
+                    const newName = name.replace(/-\d-/, `-${index}-`)
+                    $(this).attr("name", newName)
+
+                }
+                if (id) {
+                    const newId = id.replace(/-\d-/, `-${index}-`)
+                    $(this).attr("id", newId)
+                }
+            })
+
+        })
+    }
+
     $addButton.on("click", function(){
         const $newRow = $originalSupplier.clone(true);
         const index = parseInt($totalSuppliers.val());
@@ -15,6 +34,22 @@ jQuery(function() {
             const id = "id_" + name;
 
             $(this).attr({ name, id }).val("");
+        });
+
+        $newRow.find("div>div[id]").each(function() {
+            console.log("2")
+            const id = $(this).attr("id").replace("-0-", `-${index}-`)
+            // console.log(id)
+            // console.log($(this))
+            $(this).attr({ id }).val("");
+            // console.log($(this))
+        });
+
+        $newRow.find("button[data-url").each(function() {
+            console.log("3")
+            const oldUrl = $(this).attr("data-url");
+            const newUrl = oldUrl.replace(/\d+/, '0');
+            $(this).attr("data-url", newUrl).val("");
         });
 
         $totalSuppliers.val(index + 1);
@@ -27,6 +62,8 @@ jQuery(function() {
         $button.closest(".row").remove();
         $totalSuppliers.val(parseInt($totalSuppliers.val()) -1);
 
+        updateFormIndex()
+        
         const url = $button.data("url");
         if (url) {
             fetch(url, {
