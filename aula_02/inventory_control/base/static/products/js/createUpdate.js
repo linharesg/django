@@ -2,6 +2,8 @@ jQuery(function() {
     const $addButton = $("#addSupplierButton");
     const $suppliersContainer = $("#supplierFormset");
     const $totalSuppliers = $("#id_supplierproduct_set-TOTAL_FORMS")
+    const $initialSuppliers = $("#id_supplierproduct_set-INITIAL_FORMS")
+    
     console.log($totalSuppliers)
 
     const $originalSupplier = $suppliersContainer.children(".row:first").clone(true);
@@ -34,6 +36,7 @@ jQuery(function() {
             const id = "id_" + name;
 
             $(this).attr({ name, id }).val("");
+            $(this).find('option').removeAttr('selected');
         });
 
         $newRow.find("div>div[id]").each(function() {
@@ -61,9 +64,11 @@ jQuery(function() {
 
         $button.closest(".row").remove();
         $totalSuppliers.val(parseInt($totalSuppliers.val()) -1);
-
-        updateFormIndex()
         
+        if (parseInt($initialSuppliers.val()) > 0) {
+            $initialSuppliers.val(parseInt($initialSuppliers.val()) -1);
+            updateFormIndex()
+        };
         const url = $button.data("url");
         if (url) {
             fetch(url, {

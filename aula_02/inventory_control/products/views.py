@@ -154,6 +154,9 @@ def update(request, slug):
 
                 form.save()
 
+                print(supplier_product_formset.data)
+                print(supplier_product_formset.errors)
+                
                 if supplier_product_formset.is_valid():
                     supplier_product_formset.save()
                     messages.success(request, "Produto atualizado com sucesso")
